@@ -9,94 +9,90 @@ import Element.Input
 import Element.Lazy
 
 
-hexCharToInt : Char -> Maybe Int
-hexCharToInt char =
-    let
-        validChars =
-            "0123456789abcdef"
-
-        indexedList =
-            List.indexedMap Tuple.pair <| String.toList validChars
-
-        searchResult =
-            List.head <|
-                List.filter
-                    (\( _, value ) -> value == char)
-                    indexedList
-    in
-    case searchResult of
-        Nothing ->
-            Nothing
-
-        Just ( integer, _ ) ->
-            Just integer
-
-
-splitPair : String -> Maybe ( Char, Char )
-splitPair str =
-    let
-        list =
-            String.toList <| String.toLower str
-
-        head =
-            List.head list
-
-        last =
-            List.head <| List.reverse list
-    in
-    case head of
-        Nothing ->
-            Nothing
-
-        Just first ->
-            case last of
-                Nothing ->
-                    Nothing
-
-                Just second ->
-                    Just ( first, second )
-
-
-charTupToIntTup : Maybe ( Char, Char ) -> Maybe ( Int, Int )
-charTupToIntTup charTup =
-    case charTup of
-        Nothing ->
-            Nothing
-
-        Just ( tupA, tupB ) ->
-            let
-                maybeA =
-                    hexCharToInt tupA
-
-                maybeB =
-                    hexCharToInt tupB
-            in
-            case maybeA of
-                Nothing ->
-                    Nothing
-
-                Just a ->
-                    case maybeB of
-                        Nothing ->
-                            Nothing
-
-                        Just b ->
-                            Just ( a, b )
-
-
-toBase10 : Maybe ( Int, Int ) -> Maybe Int
-toBase10 tuple =
-    case tuple of
-        Nothing ->
-            Nothing
-
-        Just ( a, b ) ->
-            Just (a * 16 + b)
-
-
 hex : String -> Color
 hex hexCode =
     let
+        hexCharToInt : Char -> Maybe Int
+        hexCharToInt char =
+            let
+                validChars =
+                    "0123456789abcdef"
+
+                indexedList =
+                    List.indexedMap Tuple.pair <| String.toList validChars
+
+                searchResult =
+                    List.head <|
+                        List.filter
+                            (\( _, value ) -> value == char)
+                            indexedList
+            in
+            case searchResult of
+                Nothing ->
+                    Nothing
+
+                Just ( integer, _ ) ->
+                    Just integer
+
+        splitPair : String -> Maybe ( Char, Char )
+        splitPair str =
+            let
+                list =
+                    String.toList <| String.toLower str
+
+                head =
+                    List.head list
+
+                last =
+                    List.head <| List.reverse list
+            in
+            case head of
+                Nothing ->
+                    Nothing
+
+                Just first ->
+                    case last of
+                        Nothing ->
+                            Nothing
+
+                        Just second ->
+                            Just ( first, second )
+
+        charTupToIntTup : Maybe ( Char, Char ) -> Maybe ( Int, Int )
+        charTupToIntTup charTup =
+            case charTup of
+                Nothing ->
+                    Nothing
+
+                Just ( tupA, tupB ) ->
+                    let
+                        mbyA =
+                            hexCharToInt tupA
+
+                        mbyB =
+                            hexCharToInt tupB
+                    in
+                    case mbyA of
+                        Nothing ->
+                            Nothing
+
+                        Just a ->
+                            case mbyB of
+                                Nothing ->
+                                    Nothing
+
+                                Just b ->
+                                    Just ( a, b )
+
+        toBase10 : Maybe ( Int, Int ) -> Maybe Int
+        toBase10 tuple =
+            case tuple of
+                Nothing ->
+                    Nothing
+
+                Just ( a, b ) ->
+                    Just (a * 16 + b)
+
         firstChar =
             List.head <| String.toList hexCode
 
