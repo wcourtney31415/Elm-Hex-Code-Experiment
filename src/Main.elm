@@ -38,28 +38,23 @@ splitPair str =
         list =
             String.toList <| String.toLower str
 
-        a : Maybe Char
-        a =
+        head =
             List.head list
 
-        b : Maybe Char
-        b =
+        last =
             List.head <| List.reverse list
+    in
+    case head of
+        Nothing ->
+            Nothing
 
-        ret =
-            case a of
+        Just first ->
+            case last of
                 Nothing ->
                     Nothing
 
-                Just first ->
-                    case b of
-                        Nothing ->
-                            Nothing
-
-                        Just second ->
-                            Just ( first, second )
-    in
-    ret
+                Just second ->
+                    Just ( first, second )
 
 
 charTuptoIntTup : Maybe ( Char, Char ) -> Maybe ( Int, Int )
