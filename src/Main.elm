@@ -63,20 +63,20 @@ charTuptoIntTup charTup =
         Nothing ->
             Nothing
 
-        Just tup ->
+        Just ( tupA, tupB ) ->
             let
-                possibleA =
-                    hexCharToInt <| Tuple.first tup
+                maybeA =
+                    hexCharToInt tupA
 
-                possibleB =
-                    hexCharToInt <| Tuple.second tup
+                maybeB =
+                    hexCharToInt tupB
             in
-            case possibleA of
+            case maybeA of
                 Nothing ->
                     Nothing
 
                 Just a ->
-                    case possibleB of
+                    case maybeB of
                         Nothing ->
                             Nothing
 
