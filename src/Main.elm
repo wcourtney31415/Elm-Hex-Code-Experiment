@@ -9,59 +9,30 @@ import Element.Input
 import Element.Lazy
 
 
-charToInt : Char -> Maybe Int
-charToInt char =
-    case char of
-        '0' ->
-            Just 0
+hexCharToInt : Char -> Maybe Int
+hexCharToInt char =
+    let
+        validChars =
+            "0123456789abcdef"
 
-        '1' ->
-            Just 1
+        indexedList =
+            List.indexedMap Tuple.pair <| String.toList validChars
 
-        '2' ->
-            Just 2
+        searchResult =
+            List.head <|
+                List.filter
+                    (\element -> Tuple.second element == char)
+                    indexedList
 
-        '3' ->
-            Just 3
+        ret =
+            case searchResult of
+                Nothing ->
+                    Nothing
 
-        '4' ->
-            Just 4
-
-        '5' ->
-            Just 5
-
-        '6' ->
-            Just 6
-
-        '7' ->
-            Just 7
-
-        '8' ->
-            Just 8
-
-        '9' ->
-            Just 9
-
-        'a' ->
-            Just 10
-
-        'b' ->
-            Just 11
-
-        'c' ->
-            Just 12
-
-        'd' ->
-            Just 13
-
-        'e' ->
-            Just 14
-
-        'f' ->
-            Just 15
-
-        _ ->
-            Nothing
+                Just result ->
+                    Just <| Tuple.first result
+    in
+    ret
 
 
 splitPair : String -> Maybe ( Char, Char )
@@ -103,10 +74,10 @@ charTuptoIntTup charTup =
         Just tup ->
             let
                 possibleA =
-                    charToInt <| Tuple.first tup
+                    hexCharToInt <| Tuple.first tup
 
                 possibleB =
-                    charToInt <| Tuple.second tup
+                    hexCharToInt <| Tuple.second tup
             in
             case possibleA of
                 Nothing ->
