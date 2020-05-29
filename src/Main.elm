@@ -119,13 +119,13 @@ hex hexCode =
             splitPair bPair
 
         rNumber =
-            pairRebase <| charTupToIntTup rSplit
+            toBase10 <| charTupToIntTup rSplit
 
         gNumber =
-            pairRebase <| charTupToIntTup gSplit
+            toBase10 <| charTupToIntTup gSplit
 
         bNumber =
-            pairRebase <| charTupToIntTup bSplit
+            toBase10 <| charTupToIntTup bSplit
 
         red =
             rgb255 255 0 0
