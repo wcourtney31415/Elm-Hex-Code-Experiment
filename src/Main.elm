@@ -68,7 +68,7 @@ splitPair : String -> Maybe ( Char, Char )
 splitPair str =
     let
         list =
-            String.toList str
+            String.toList <| String.toLower str
 
         a : Maybe Char
         a =
@@ -138,6 +138,9 @@ pairRebase tuple =
 hex : String -> Color
 hex hexCode =
     let
+        firstChar =
+            List.head <| String.toList hexCode
+
         rPair =
             String.slice 1 3 hexCode
 
@@ -169,22 +172,31 @@ hex hexCode =
             rgb255 255 0 0
 
         ret =
-            case rNumber of
-                Nothing ->
-                    red
+            if String.length hexCode == 7 then
+                case firstChar of
+                    Just '#' ->
+                        case rNumber of
+                            Nothing ->
+                                red
 
-                Just r ->
-                    case gNumber of
-                        Nothing ->
-                            red
+                            Just r ->
+                                case gNumber of
+                                    Nothing ->
+                                        red
 
-                        Just g ->
-                            case bNumber of
-                                Nothing ->
-                                    red
+                                    Just g ->
+                                        case bNumber of
+                                            Nothing ->
+                                                red
 
-                                Just b ->
-                                    rgb255 r g b
+                                            Just b ->
+                                                rgb255 r g b
+
+                    _ ->
+                        red
+
+            else
+                red
     in
     ret
 
