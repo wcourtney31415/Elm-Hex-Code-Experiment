@@ -57,8 +57,8 @@ splitPair str =
                     Just ( first, second )
 
 
-charTuptoIntTup : Maybe ( Char, Char ) -> Maybe ( Int, Int )
-charTuptoIntTup charTup =
+charTupToIntTup : Maybe ( Char, Char ) -> Maybe ( Int, Int )
+charTupToIntTup charTup =
     case charTup of
         Nothing ->
             Nothing
@@ -84,18 +84,14 @@ charTuptoIntTup charTup =
                             Just ( a, b )
 
 
-pairRebase : Maybe ( Int, Int ) -> Maybe Int
-pairRebase tuple =
-    let
-        ret =
-            case tuple of
-                Nothing ->
-                    Nothing
+toBase10 : Maybe ( Int, Int ) -> Maybe Int
+toBase10 tuple =
+    case tuple of
+        Nothing ->
+            Nothing
 
-                Just ( charA, charB ) ->
-                    Just (charA * 16 + charB)
-    in
-    ret
+        Just ( a, b ) ->
+            Just (a * 16 + b)
 
 
 hex : String -> Color
@@ -123,13 +119,13 @@ hex hexCode =
             splitPair bPair
 
         rNumber =
-            pairRebase <| charTuptoIntTup rSplit
+            pairRebase <| charTupToIntTup rSplit
 
         gNumber =
-            pairRebase <| charTuptoIntTup gSplit
+            pairRebase <| charTupToIntTup gSplit
 
         bNumber =
-            pairRebase <| charTuptoIntTup bSplit
+            pairRebase <| charTupToIntTup bSplit
 
         red =
             rgb255 255 0 0
