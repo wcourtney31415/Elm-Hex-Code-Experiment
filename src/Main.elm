@@ -21,18 +21,15 @@ hexCharToInt char =
         searchResult =
             List.head <|
                 List.filter
-                    (\element -> Tuple.second element == char)
+                    (\( _, value ) -> value == char)
                     indexedList
-
-        ret =
-            case searchResult of
-                Nothing ->
-                    Nothing
-
-                Just result ->
-                    Just <| Tuple.first result
     in
-    ret
+    case searchResult of
+        Nothing ->
+            Nothing
+
+        Just ( result, _ ) ->
+            Just result
 
 
 splitPair : String -> Maybe ( Char, Char )
