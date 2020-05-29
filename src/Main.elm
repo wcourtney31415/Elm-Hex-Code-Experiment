@@ -28,8 +28,8 @@ hexCharToInt char =
         Nothing ->
             Nothing
 
-        Just ( result, _ ) ->
-            Just result
+        Just ( integer, _ ) ->
+            Just integer
 
 
 splitPair : String -> Maybe ( Char, Char )
@@ -100,64 +100,52 @@ hex hexCode =
         firstChar =
             List.head <| String.toList hexCode
 
-        rPair =
-            String.slice 1 3 hexCode
+        maybeR =
+            toBase10 <|
+                charTupToIntTup <|
+                    splitPair <|
+                        String.slice 1 3 hexCode
 
-        gPair =
-            String.slice 3 5 hexCode
+        maybeG =
+            toBase10 <|
+                charTupToIntTup <|
+                    splitPair <|
+                        String.slice 3 5 hexCode
 
-        bPair =
-            String.slice 5 7 hexCode
+        maybeB =
+            toBase10 <|
+                charTupToIntTup <|
+                    splitPair <|
+                        String.slice 5 7 hexCode
 
-        rSplit =
-            splitPair rPair
-
-        gSplit =
-            splitPair gPair
-
-        bSplit =
-            splitPair bPair
-
-        rNumber =
-            toBase10 <| charTupToIntTup rSplit
-
-        gNumber =
-            toBase10 <| charTupToIntTup gSplit
-
-        bNumber =
-            toBase10 <| charTupToIntTup bSplit
-
-        red =
+        failColor =
             rgb255 255 0 0
-
-        ret =
-            if String.length hexCode == 7 then
-                case firstChar of
-                    Just '#' ->
-                        case rNumber of
-                            Nothing ->
-                                red
-
-                            Just r ->
-                                case gNumber of
-                                    Nothing ->
-                                        red
-
-                                    Just g ->
-                                        case bNumber of
-                                            Nothing ->
-                                                red
-
-                                            Just b ->
-                                                rgb255 r g b
-
-                    _ ->
-                        red
-
-            else
-                red
     in
-    ret
+    if String.length hexCode == 7 then
+        case firstChar of
+            Just '#' ->
+                case maybeR of
+                    Nothing ->
+                        failColor
+
+                    Just r ->
+                        case maybeG of
+                            Nothing ->
+                                failColor
+
+                            Just g ->
+                                case maybeB of
+                                    Nothing ->
+                                        failColor
+
+                                    Just b ->
+                                        rgb255 r g b
+
+            _ ->
+                failColor
+
+    else
+        failColor
 
 
 main =
